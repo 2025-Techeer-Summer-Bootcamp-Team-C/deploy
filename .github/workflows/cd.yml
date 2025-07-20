@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code # 코드 클론
         uses: actions/checkout@v4
 
+      - name: Show workspace tree
+        run: ls -R
+        shell: bash
+        
       - name: Deploy the app # 배포중 메시지 출력
         run: echo "Deploying the app..."
       
@@ -29,6 +33,7 @@ jobs:
             docker-compose.monitoring.yml
             prometheus/**
           target: /home/ubuntu/
+          debug: true
       
       - name: Deploy to Server # 복사된 docker-compose.yml 파일을 실행
         id: deploy
