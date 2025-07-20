@@ -37,6 +37,7 @@ services:
             gunicorn --bind 0.0.0.0:8000 config.wsgi:application --timeout 300"
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=Backend-Net"
       # HTTP 라우터
       - "traefik.http.routers.backend-secure.rule=Host(`api.techeerfashion.shop`) || Host(`techeerfashion.shop`)"
       - "traefik.http.routers.backend.entrypoints=web"
@@ -59,6 +60,7 @@ services:
     container_name: Board-Traefik
     command:
       - "--api.insecure=true"
+      - "--providers.docker.network=Backend-Net"
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"

@@ -35,6 +35,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
           script: |
+            # ---- acme.json 권한 보장 ----
+            sudo mkdir -p /home/ubuntu/letsencrypt
+            sudo touch /home/ubuntu/letsencrypt/acme.json
+            sudo chmod 600 /home/ubuntu/letsencrypt/acme.json
+            # ----------------------------
             export DJANGO_SETTINGS_MODULE=config.settings.dev
             export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
             export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
@@ -43,7 +48,7 @@ jobs:
             export DATABASE_USER=${{ secrets.DATABASE_USER }}
             export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
 
-            
+            docker compose down
             docker compose pull & docker compose up -d # 서비스 실행
       
       - name: Clean Up Files in Server # 이후 docker-compose.yml 파일 삭제
