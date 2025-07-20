@@ -28,7 +28,6 @@ jobs:
             docker-compose.yml
             docker-compose.monitoring.yml
             prometheus/**
-            grafana/**
           target: /home/ubuntu/
       
       - name: Deploy to Server # 복사된 docker-compose.yml 파일을 실행
