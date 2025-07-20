@@ -47,6 +47,21 @@ jobs:
             export DATABASE_NAME=${{ secrets.DATABASE_NAME }}
             export DATABASE_USER=${{ secrets.DATABASE_USER }}
             export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            
+            export SECRET_KEY=${{ secrets.SECRET_KEY }}
+            export BITSTUDIO_API_KEY=${{ secrets.BITSTUDIO_API_KEY }}
+            export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+
+            export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            export AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+            export AWS_S3_REGION_NAME=${{ secrets.AWS_S3_REGION_NAME }}
+            export AWS_S3_CUSTOM_DOMAIN=${{ secrets.AWS_S3_CUSTOM_DOMAIN }}
+
+            export TNB_EMAIL=${{ secrets.TNB_EMAIL }}
+            export TNB_PASSWORD=${{ secrets.TNB_PASSWORD }}
+
+            export SWAGGER_BASE_URL=${{ secrets.SWAGGER_BASE_URL }}
 
             docker compose down
             docker compose pull & docker compose up -d # 서비스 실행
