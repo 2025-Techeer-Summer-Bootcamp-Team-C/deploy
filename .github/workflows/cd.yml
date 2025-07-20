@@ -28,7 +28,10 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
-          source: "./docker-compose.yml ./docker-compose.monitoring.yml ./prometheus/**"
+          source: |
+            ./docker-compose.yml
+            ./docker-compose.monitoring.yml
+            ./prometheus/**
           target: /home/ubuntu/
           debug: true
       
