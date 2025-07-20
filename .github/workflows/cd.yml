@@ -17,7 +17,7 @@ jobs:
       - name: Show workspace tree
         run: ls -R
         shell: bash
-        
+
       - name: Deploy the app # 배포중 메시지 출력
         run: echo "Deploying the app..."
       
@@ -28,10 +28,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
-          source: |
-            docker-compose.yml
-            docker-compose.monitoring.yml
-            prometheus/**
+          source: "./docker-compose.yml ./docker-compose.monitoring.yml ./prometheus/**"
           target: /home/ubuntu/
           debug: true
       
