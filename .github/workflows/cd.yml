@@ -27,7 +27,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PASSWORD }}
           source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter/**"
           target: /home/ubuntu/
           debug: true
@@ -38,7 +38,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PASSWORD }}
           script: |
             # ---- acme.json 권한 보장 ----
             sudo mkdir -p /home/ubuntu/letsencrypt
