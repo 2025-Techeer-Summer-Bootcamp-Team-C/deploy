@@ -30,7 +30,6 @@ jobs:
           key: ${{ secrets.SSH_PASSWORD }}
           source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter/**"
           target: /home/ubuntu/
-          rm: true # 동일 경로가 있으면 먼저 삭제
           overwrite: true # 덮어쓰기 허용
           debug: true
       
