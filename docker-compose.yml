@@ -140,8 +140,6 @@ services:
       - rabbitmq
       - backend
     restart: always
-    ports:
-      - '5555:5555'
     tty: true
     networks:
       - Backend-Net
