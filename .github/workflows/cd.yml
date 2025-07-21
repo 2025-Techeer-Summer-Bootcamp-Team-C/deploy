@@ -49,6 +49,7 @@ jobs:
             sudo chown -R 472:472 /home/ubuntu/grafana
             # ----------------------------
             export DJANGO_SETTINGS_MODULE=config.settings.dev
+            export ENVIRONMENT=prod
             export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
             export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
             export DATABASE_HOST=${{ secrets.DATABASE_HOST }}
