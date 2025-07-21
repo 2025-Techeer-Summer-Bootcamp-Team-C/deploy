@@ -29,4 +29,4 @@ scrape_configs:
 
   - job_name: 'celery-data'
     static_configs:
-      - targets: ['celery-worker:5555']
+      - targets: ['celery_worker:5555']
