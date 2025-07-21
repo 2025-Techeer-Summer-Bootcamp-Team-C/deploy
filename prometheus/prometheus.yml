@@ -14,3 +14,7 @@ scrape_configs:
       - targets: ['api.techeerfashion.shop']    # Traefik 도메인
     tls_config:
       insecure_skip_verify: true   # 자체 인증서라면
+      
+  - job_name: 'node-data'
+    static_configs:
+      - targets: ['node_exporter:9100']
