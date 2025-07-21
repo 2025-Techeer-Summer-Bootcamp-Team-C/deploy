@@ -25,4 +25,4 @@ scrape_configs:
 
   - job_name: 'cadvisor-data' #job 이름
     static_configs:
-      - targets: ['cadvisor:8080'] #<서비스_이름>:<포트>
+      - targets: ['cadvisor:8080']
