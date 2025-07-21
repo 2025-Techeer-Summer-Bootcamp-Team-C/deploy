@@ -29,7 +29,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
-          source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter"
+          source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter/**"
           target: /home/ubuntu/
           debug: true
       
@@ -41,6 +41,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
           script: |
+            # 백업 필요 없으면 바로 풀기
+            sudo tar -xzf /home/ubuntu/deploy.tar.gz -C /home/ubuntu/
+            sudo rm /home/ubuntu/deploy.tar.gz
             # ---- acme.json 권한 보장 ----
             sudo mkdir -p /home/ubuntu/letsencrypt
             sudo touch /home/ubuntu/letsencrypt/acme.json
