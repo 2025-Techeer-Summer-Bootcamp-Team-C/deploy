@@ -30,7 +30,6 @@ jobs:
           key: ${{ secrets.SSH_PASSWORD }}
           source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter/**"
           target: /home/ubuntu/
-          overwrite: true # 덮어쓰기 허용
           debug: true
       
       - name: Deploy to Server # 복사된 docker-compose.yml 파일을 실행
