@@ -28,7 +28,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
-          source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter/**"
+          source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**"
           target: /home/ubuntu/
           debug: true
       
@@ -47,10 +47,6 @@ jobs:
             # ---- Grafana 볼륨 권한 ----
             sudo mkdir -p /home/ubuntu/grafana/data
             sudo chown -R 472:472 /home/ubuntu/grafana
-            # ---- mysql‑exporter 권한/깨끗이 ----
-            sudo rm -rf /home/ubuntu/mysql-exporter
-            sudo mkdir -p /home/ubuntu/mysql-exporter
-            sudo chown -R ubuntu:ubuntu /home/ubuntu/mysql-exporter
             # ----------------------------
             export DJANGO_SETTINGS_MODULE=config.settings.dev
             export ENVIRONMENT=prod
