@@ -44,7 +44,7 @@ jobs:
             sudo mkdir -p /home/ubuntu/letsencrypt
             sudo touch /home/ubuntu/letsencrypt/acme.json
             sudo chmod 600 /home/ubuntu/letsencrypt/acme.json
-             # ---- Grafana 볼륨 권한 ----
+            # ---- Grafana 볼륨 권한 ----
             sudo mkdir -p /home/ubuntu/grafana/data
             sudo chown -R 472:472 /home/ubuntu/grafana
             # ----------------------------
