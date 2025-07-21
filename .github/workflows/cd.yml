@@ -30,6 +30,8 @@ jobs:
           key: ${{ secrets.SSH_PASSWORD }}
           source: "./docker-compose.yml,./docker-compose.monitoring.yml,./prometheus/**,./mysql-exporter/**"
           target: /home/ubuntu/
+          rm: true # 동일 경로가 있으면 먼저 삭제
+          overwrite: true # 덮어쓰기 허용
           debug: true
       
       - name: Deploy to Server # 복사된 docker-compose.yml 파일을 실행
@@ -47,6 +49,10 @@ jobs:
             # ---- Grafana 볼륨 권한 ----
             sudo mkdir -p /home/ubuntu/grafana/data
             sudo chown -R 472:472 /home/ubuntu/grafana
+            # ---- mysql‑exporter 권한/깨끗이 ----
+            sudo rm -rf /home/ubuntu/mysql-exporter
+            mkdir -p /home/ubuntu/mysql-exporter
+            chown -R ubuntu:ubuntu /home/ubuntu/mysql-exporter
             # ----------------------------
             export DJANGO_SETTINGS_MODULE=config.settings.dev
             export ENVIRONMENT=prod
