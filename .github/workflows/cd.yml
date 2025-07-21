@@ -50,8 +50,8 @@ jobs:
             sudo chown -R 472:472 /home/ubuntu/grafana
             # ---- mysql‑exporter 권한/깨끗이 ----
             sudo rm -rf /home/ubuntu/mysql-exporter
-            mkdir -p /home/ubuntu/mysql-exporter
-            chown -R ubuntu:ubuntu /home/ubuntu/mysql-exporter
+            sudo mkdir -p /home/ubuntu/mysql-exporter
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/mysql-exporter
             # ----------------------------
             export DJANGO_SETTINGS_MODULE=config.settings.dev
             export ENVIRONMENT=prod
