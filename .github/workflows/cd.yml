@@ -6,7 +6,6 @@ on:
   push:
     branches: [develop]
 
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,7 +20,22 @@ jobs:
 
       - name: Deploy the app # 배포중 메시지 출력
         run: echo "Deploying the app..."
-      
+
+      # --- mysql-exporter 디렉터리 권한 준비 추가 ---
+      - name: Prepare mysql-exporter perms
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            # 디렉터리가 없으면 생성
+            sudo mkdir -p /home/ubuntu/mysql-exporter
+            # 소유권을 ubuntu:ubuntu 로 변경
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/mysql-exporter
+            # 읽기/쓰기/실행 권한 모두에게 허용
+            sudo chmod -R ugo+rwX /home/ubuntu/mysql-exporter
+
       - name: Copy file to Server # docker-compose.yml파일을 서버로 복사
         id: copy
         uses: appleboy/scp-action@v0.1.7
@@ -41,14 +55,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PASSWORD }}
           script: |
-            # 백업 필요 없으면 바로 풀기
-            sudo tar -xzf /home/ubuntu/deploy.tar.gz -C /home/ubuntu/
-            sudo rm /home/ubuntu/deploy.tar.gz
             # ---- acme.json 권한 보장 ----
             sudo mkdir -p /home/ubuntu/letsencrypt
             sudo touch /home/ubuntu/letsencrypt/acme.json
             sudo chmod 600 /home/ubuntu/letsencrypt/acme.json
-
+            
             # ---- Grafana 볼륨 권한 ----
             sudo mkdir -p /home/ubuntu/grafana/data
             sudo chown -R 472:472 /home/ubuntu/grafana
