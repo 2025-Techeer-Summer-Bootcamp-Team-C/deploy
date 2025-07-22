@@ -11,7 +11,7 @@ scrape_configs:
     scheme: https
     metrics_path: /metrics
     static_configs:
-      - targets: ['api.techeerfashion.shop']    # Traefik 도메인
+      - targets: ['api.morphmall.shop']    # Traefik 도메인
     tls_config:
       insecure_skip_verify: true   # 자체 인증서라면
       
