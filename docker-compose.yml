@@ -115,7 +115,7 @@ services:
     image: hwnahee/backend:develop          # ― 변경 ―
     volumes:
       - ./:/app
-    command: celery -A config worker --concurrency=4 --loglevel=info
+    command: celery -A config worker --concurrency=100 --loglevel=info
     environment:
       CELERY_BROKER_URL: amqp://guest:guest@rabbitmq:5672//
       DJANGO_SETTINGS_MODULE: config.settings.dev
