@@ -107,7 +107,7 @@ jobs:
             docker compose \
               -f docker-compose.yml \
               -f docker-compose.monitoring.yml \
-              up -d --remove-orphans --scale celery_worker=2
+              up -d --remove-orphans
             
             docker logs grafana --tail 50
       
