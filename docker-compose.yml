@@ -81,6 +81,11 @@ services:
       - "--certificatesresolvers.myresolver.acme.email=ymkim2353@gmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--log.level=INFO"
+      - "--accesslog=true"
+      - "--accesslog.format=json"
+      - "--accesslog.fields.defaultmode=keep"
+      - "--accesslog.filepath=/logs/access.log"
     ports:
       - "80:80"
       - "443:443"
@@ -88,8 +93,13 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
+      - ./traefik-logs:/logs
     networks:
       - Backend-Net
+    labels:
+      logging: "promtail"
+      logging_jobname: "traefiklogs"
+    restart: always
 
   rabbitmq:
     image: rabbitmq:3.13-management

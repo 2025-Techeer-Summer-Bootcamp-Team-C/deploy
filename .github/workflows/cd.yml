@@ -97,16 +97,19 @@ jobs:
             docker compose \
             -f docker-compose.yml \
             -f docker-compose.monitoring.yml \
+            -f docker-compose.logging.yml \
             down
 
             docker compose \
               -f docker-compose.yml \
               -f docker-compose.monitoring.yml \
+              -f docker-compose.logging.yml \
               pull
 
             docker compose \
               -f docker-compose.yml \
               -f docker-compose.monitoring.yml \
+              -f docker-compose.logging.yml \
               up -d --remove-orphans
             
             docker logs grafana --tail 50
