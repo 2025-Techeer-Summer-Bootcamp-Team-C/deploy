@@ -22,6 +22,8 @@ services:
       - ./traefik-logs:/logs
     command:
       - -config.file=/etc/promtail/config.yaml
+    ports:
+    - "9080:9080"
     depends_on:
       - loki
     networks:
