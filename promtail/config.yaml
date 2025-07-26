@@ -9,7 +9,7 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  # 1. Traefik access log
+  # ────────────── 1. Traefik Access Logs ──────────────
   - job_name: traefik_accesslog
     static_configs:
       - targets:
@@ -17,64 +17,66 @@ scrape_configs:
         labels:
           job: traefik
           __path__: /logs/access.log
+    pipeline_stages:
+      - json:  # JSON 로그 파싱
+          expressions:
+            ClientAddr: ClientAddr
+            RequestMethod: RequestMethod
+            RequestPath: RequestPath
+            DownstreamStatus: DownstreamStatus
+            Duration: Duration
+            ServiceName: ServiceName
+      - labels: # 라벨 추가 (Grafana에서 필터링 가능)
+          RequestMethod:
+          RequestPath:
+          DownstreamStatus:
+          ServiceName:
 
-  # 2. Docker container logs (서비스별 라벨링)
+  # ────────────── 2. Docker Container Logs ──────────────
   - job_name: docker
     docker_sd_configs:
       - host: unix:///var/run/docker.sock
         refresh_interval: 5s
     relabel_configs:
-      # 컨테이너 이름을 container 라벨로 저장
       - source_labels: ['__meta_docker_container_name']
         regex: '/(.*)'
         target_label: 'container'
-
-      # 컨테이너 이름을 job 라벨로도 저장 (Grafana에서 쉽게 조회)
       - source_labels: ['__meta_docker_container_name']
         regex: 'Backend'
         target_label: 'job'
         replacement: 'backend'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'Board-Traefik'
         target_label: 'job'
         replacement: 'traefik'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'mysql'
         target_label: 'job'
         replacement: 'mysql'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'rabbitmq'
         target_label: 'job'
         replacement: 'rabbitmq'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'celery_worker'
         target_label: 'job'
         replacement: 'celery-worker'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'celery_beat'
         target_label: 'job'
         replacement: 'celery-beat'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'grafana'
         target_label: 'job'
         replacement: 'grafana'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'loki'
         target_label: 'job'
         replacement: 'loki'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'prometheus'
         target_label: 'job'
         replacement: 'prometheus'
-
       - source_labels: ['__meta_docker_container_name']
         regex: 'cadvisor'
         target_label: 'job'
