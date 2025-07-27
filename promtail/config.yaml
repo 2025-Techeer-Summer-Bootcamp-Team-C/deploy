@@ -58,9 +58,13 @@ scrape_configs:
         target_label: 'job'
         replacement: 'rabbitmq'
       - source_labels: ['__meta_docker_container_name']
-        regex: 'celery_worker'
+        regex: 'celery_io'
         target_label: 'job'
-        replacement: 'celery-worker'
+        replacement: 'celery-io'
+      - source_labels: ['__meta_docker_container_name']
+        regex: 'celery_cpu'
+        target_label: 'job'
+        replacement: 'celery-cpu'
       - source_labels: ['__meta_docker_container_name']
         regex: 'celery_beat'
         target_label: 'job'

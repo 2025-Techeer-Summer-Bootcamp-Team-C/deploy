@@ -120,7 +120,7 @@ services:
     networks:
       - Backend-Net
 
-  celery_worker:
+  celery_io:
     image: hwnahee/backend:develop          # ― 변경 ―
     volumes:
       - ./:/app
@@ -128,7 +128,48 @@ services:
       celery -A config worker
       --pool=eventlet
       --concurrency=250
+      --queues=io
       --loglevel=info
+    environment:
+      CELERY_BROKER_URL: amqp://guest:guest@rabbitmq:5672//
+      DJANGO_SETTINGS_MODULE: config.settings.dev
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      BITSTUDIO_API_KEY: ${BITSTUDIO_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+      AWS_S3_REGION_NAME: ${AWS_S3_REGION_NAME}
+      AWS_S3_CUSTOM_DOMAIN: ${AWS_S3_CUSTOM_DOMAIN}
+      TNB_EMAIL: "${TNB_EMAIL}"
+      TNB_PASSWORD: "${TNB_PASSWORD}"
+      ENVIRONMENT: "prod"
+      DEBUG: "False"
+      SWAGGER_BASE_URL: "${SWAGGER_BASE_URL}"
+    depends_on:
+      - rabbitmq
+      - backend
+    restart: always
+    tty: true
+    networks:
+      - Backend-Net
+    labels:
+      - "traefik.enable=false"
+
+  celery_cpu:
+    image: hwnahee/backend:develop          # ― 변경 ―
+    volumes:
+      - ./:/app
+    command: >
+      celery -A config worker
+      --pool=prefork
+      --concurrency=4
+      --queues=cpu
+      -E --loglevel=info
     environment:
       CELERY_BROKER_URL: amqp://guest:guest@rabbitmq:5672//
       DJANGO_SETTINGS_MODULE: config.settings.dev
