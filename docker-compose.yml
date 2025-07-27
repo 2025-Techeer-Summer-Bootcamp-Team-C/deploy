@@ -246,7 +246,8 @@ services:
       - "5555:5555"
     depends_on:
       - rabbitmq
-      - celery_worker
+      - celery_io
+      - celery_cpu
       - celery_beat
     networks:
       - Backend-Net
